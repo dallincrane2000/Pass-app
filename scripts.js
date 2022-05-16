@@ -19,21 +19,13 @@ fetch('https://cwwp2.dot.ca.gov/data/d3/cc/ccStatusD03.json')
       - new Date(a.cc.statusData.statusTimestamp.statusDate);
     })
 
-/*<div class="card text-white bg-primary mb-3">
-            <div class="card-body">
-              <h4 class="card-title">Primary card title</h4>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-          </div>*/
-
     // goes through every value in data
     for(let i in newArray){
         let name = newArray[i].cc.location.locationName;
         let stats = newArray[i].cc.statusData.statusDescription;
         let bound = newArray[i].cc.location.direction;
         let update = newArray[i].cc.statusData.statusTimestamp;
-
-        //console.log(obj.data[i]); //remove eventually
+        let stats_code = newArray[i].cc.statusData.status;
 
         // html element creation section
         let container = document.createElement("div");
@@ -42,19 +34,36 @@ fetch('https://cwwp2.dot.ca.gov/data/d3/cc/ccStatusD03.json')
         let head = document.createElement("h1");
         let status = document.createElement("p");
         let time = document.createElement("p");
+        let refresh = document.createElement("button");
         
         // Text attributes section
         container.setAttribute("class", "container");
         card_main.setAttribute("class", "card text-white bg-primary mb-3");
         card_body.setAttribute("class", "card-body");
         head.setAttribute("class", "card-title");
-        status.setAttribute("class", "text-info");
-        time.setAttribute("class", "text-info");
+        refresh.setAttribute("type", "button");
+        refresh.setAttribute("class", "btn btn-primary");
+
+        // change color based on info presented
+        if(stats_code == "R-0"){
+          time.setAttribute("class", "text-info");
+          status.setAttribute("class", "text-info");
+        } else {
+          time.setAttribute("class", "text-danger");
+          status.setAttribute("class", "text-danger");
+        }
+        
 
         // data filling section
         head.innerHTML = name + ": " + bound + "bound";
         status.innerHTML = stats;
         time.innerHTML = "Last updated: Date: " + update.statusDate + " Time: " + time_converter(update.statusTime);
+        refresh.innerHTML = "Refresh";
+
+        // Event Listeners
+        refresh.addEventListener("click", function(){
+          window.location.reload(true);
+        });
 
         // append to page section
         document.body.appendChild(container);
@@ -63,7 +72,8 @@ fetch('https://cwwp2.dot.ca.gov/data/d3/cc/ccStatusD03.json')
         card_body.appendChild(head);
         card_body.appendChild(status);
         card_body.appendChild(time);
-        }
+        card_body.appendChild(refresh);
+      }
  }
 
 // filter function
@@ -99,14 +109,6 @@ function filter(obj){
         
     return timeValue;
   }
-
-
-  
-
-
-  // To do 
-  // Add google maps links to the cordinates for each of the locations for reference
-
 
 
   // if first two digits of post mile are the same && direction is the same display streaming url
