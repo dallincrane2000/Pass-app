@@ -19,6 +19,13 @@ fetch('https://cwwp2.dot.ca.gov/data/d3/cc/ccStatusD03.json')
       - new Date(a.cc.statusData.statusTimestamp.statusDate);
     })
 
+/*<div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+              <h4 class="card-title">Primary card title</h4>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+          </div>*/
+
     // goes through every value in data
     for(let i in newArray){
         let name = newArray[i].cc.location.locationName;
@@ -30,13 +37,17 @@ fetch('https://cwwp2.dot.ca.gov/data/d3/cc/ccStatusD03.json')
 
         // html element creation section
         let container = document.createElement("div");
-        container.setAttribute("class", "container");
+        let card_main = document.createElement("div");
+        let card_body = document.createElement("div");
         let head = document.createElement("h1");
         let status = document.createElement("p");
         let time = document.createElement("p");
         
         // Text attributes section
-        head.setAttribute("id", "heading");
+        container.setAttribute("class", "container");
+        card_main.setAttribute("class", "card text-white bg-primary mb-3");
+        card_body.setAttribute("class", "card-body");
+        head.setAttribute("class", "card-title");
         status.setAttribute("class", "text-info");
         time.setAttribute("class", "text-info");
 
@@ -47,9 +58,11 @@ fetch('https://cwwp2.dot.ca.gov/data/d3/cc/ccStatusD03.json')
 
         // append to page section
         document.body.appendChild(container);
-        container.appendChild(head);
-        container.appendChild(status);
-        container.appendChild(time);
+        container.appendChild(card_main);
+        card_main.appendChild(card_body);
+        card_body.appendChild(head);
+        card_body.appendChild(status);
+        card_body.appendChild(time);
         }
  }
 
