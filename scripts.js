@@ -19,6 +19,7 @@ fetch('https://cwwp2.dot.ca.gov/data/d3/cc/ccStatusD03.json')
 
     // goes through every value in data
     for(let i in newArray){
+        // sets convenient names for long array addresses
         let name = newArray[i].cc.location.locationName;
         let stats = newArray[i].cc.statusData.statusDescription;
         let bound = newArray[i].cc.location.direction;
